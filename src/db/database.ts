@@ -13,6 +13,7 @@ export function getDatabase(): Promise<SQLite.SQLiteDatabase> {
   if (!dbPromise) {
     dbPromise = (async () => {
       const db = await SQLite.openDatabaseAsync(DATABASE_NAME);
+      await db.execAsync('PRAGMA foreign_keys = ON;');
       await migrateDbIfNeeded(db);
       return db;
     })();
